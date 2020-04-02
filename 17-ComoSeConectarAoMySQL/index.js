@@ -7,4 +7,4 @@ app.get("/pagina2", (req, res)=>{res.sendFile("");});
 
 app.listen(8081, ()=>{
     console.log("Servidor rodando...");
-});
+}); 
