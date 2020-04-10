@@ -20,7 +20,20 @@
 
 // Página das categorias
     router.get("/categorias", (req, res) => {
-        res.render("./admin/categorias") // Renderizando a página: admin/categorias
+        
+        Categoria.find().sort({date: "desc"}).then((categorias)=>{
+            //console.log(categorias)
+            res.render("./admin/categorias",
+            // Eu tenho que converter as categorias para JSON para assim conseguir renderizar na tela
+             {categorias: categorias.map(categoria => categoria.toJSON())}) // Renderizando a página: admin/categorias
+            
+        }).catch((err)=>{
+            
+                req.flash("error_msg", "Houve um erro ao listar as categorias")
+                res.redirect("/admin")
+            }
+        );
+    
     })
 
 // Página de adicionar categorias

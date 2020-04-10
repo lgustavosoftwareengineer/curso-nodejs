@@ -4,6 +4,7 @@
 
 /*Estrurando o model */
     const Categoria = new Schema({
+        
         // campo nome do db
         nome:{
             type: String,
