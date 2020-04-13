@@ -50,7 +50,11 @@
 
     // Mongoose
         mongoose.Promise = global.Promise; // Config para se evitar erros
-        mongoose.connect('mongodb://localhost/blogapp').then(()=>console.log("Conexão realizada com sucesso no banco de dados")).catch((err)=>console.log("Erro ao se conectar ao banco de dados: "+err));
+        mongoose.connect('mongodb://localhost/blogapp', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false          
+        }).then(()=>console.log("Conexão realizada com sucesso no banco de dados")).catch((err)=>console.log("Erro ao se conectar ao banco de dados: "+err));
     // Public
         app.use(express.static(path.join(__dirname, "public")))
 
