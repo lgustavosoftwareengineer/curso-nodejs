@@ -15,7 +15,9 @@
         // Model -> Postagem
             require("./models/Postagem")
             const Postagem = mongoose.model("postagens");
-
+        // Model -> Categoria
+            require("./models/Categoria")
+            const Categoria = mongoose.model("categorias")  
 
 /*------------------------------------------------------------------------------ */
 /*Configurações*/
@@ -67,18 +69,53 @@
 /*Rotas*/
 /*------------------------------------------------------------------------------ */
     // Rota principal    
-    app.get("/", (req, res) => 
-        {
-            Postagem.find().populate("categoria").sort({data: "desc"}).then( (postagens) => 
+        app.get("/", (req, res) => 
             {
+                Postagem.find().populate("categoria").sort({data: "desc"}).then( (postagens) => 
+                {
+                    
+                    res.render("index", {postagens: postagens.map( postagem => postagem.toJSON())})
                 
-                res.render("index", {postagens: postagens.map( postagem => postagem.toJSON())})
+                }).catch( (err) => 
+                {
+                    req.flash("erro_msg", "Houver um erro interno");
+                    res.redirect("/404")
+                })
+            } );
+    // Rota de error
+        app.get("/404", (req, res) => 
+        {
+            res.send("404");
+        })
+    // Rota com uma lista de posts
+        app.get("/posts", (req, res) => res.send("Post List") ); 
+    
+    // Rota prefixada admin
+        app.use("/admin", admin) 
             
+    // Rota de listagem de cada postagem
+        app.get("/postagem/:slug", (req, res) => 
+        {
+            Postagem.findOne({ slug: req.params.slug }).lean().then( (postagem) => 
+                {
+                    if (postagem) {
+                        res.render("postagem/index", {postagem: postagem})
+                    
+                    } else {
+                        req.flash("error_msg", "Esta postagem não existe");
+                        res.redirect("/")
+                    }      
+                }               
+            ).catch( (err) => 
+            {
+                req.flash("error_msg", "Houve um erro interno");
+                res.redirect("/");
             })
-        } );
-    app.get("/posts", (req, res) => res.send("Post List") ); // Rota com uma lista de posts
-    app.use("/admin", admin) // Rota prefixada admin
-
+        })
+    // Exibindo todas as categorias
+        app.get("/categoria", (req, res) => {
+            Cat
+        })
     //Exemplo de middleware
     //<!!!!!!!!!!!!!> Tudo que se é usado app.use() é
     //-> um middleware("Espécie de espião que fica espionando o as requisições que o cliente faz ao servidor")
