@@ -1,0 +1,39 @@
+<div class="jumbotron">
+    <h1 class="display-4">
+        Seja Bem-vindo ao Blog do NodeJS
+    </h1>
+    <p class="lead"> 
+        Parágrafo 
+    </p>
+    <hr class="my-4">
+    <p class="lead">
+        <a href="" class="btn btn-primary btg-lg" role="button">
+            Crie uma conta 
+        </a>
+    </p>
+</div>
+
+<hr>
+
+
+<h2 class="display-4">
+    Postagem recentes: 
+</h2>
+
+{{#each postagens}}
+<div class="card">
+    <div class="card-body">
+        <h3>
+            {{titulo}}
+        </h3>
+        <p>
+            {{descricao}}
+        </p>
+        <hr>
+        <b>Categoria:</b>  {{categoria.nome}} <br>
+        <b>Data de criação:</b>  {{data}}
+    </div>
+</div>
+{{else}}
+
+{{/each}}

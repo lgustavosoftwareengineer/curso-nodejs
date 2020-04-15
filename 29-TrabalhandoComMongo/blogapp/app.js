@@ -11,6 +11,10 @@
     const flash = require("connect-flash") 
     // Gerando uma instancia para uso do modulo "express"
         const app = express(); 
+    // Importando os Models
+        // Model -> Postagem
+            require("./models/Postagem")
+            const Postagem = mongoose.model("postagens");
 
 
 /*------------------------------------------------------------------------------ */
@@ -62,7 +66,16 @@
 /*------------------------------------------------------------------------------ */
 /*Rotas*/
 /*------------------------------------------------------------------------------ */
-    app.get("/", (req, res) => res.send("Main route") );// Rota principal
+    // Rota principal    
+    app.get("/", (req, res) => 
+        {
+            Postagem.find().populate("categoria").sort({data: "desc"}).then( (postagens) => 
+            {
+                
+                res.render("index", {postagens: postagens.map( postagem => postagem.toJSON())})
+            
+            })
+        } );
     app.get("/posts", (req, res) => res.send("Post List") ); // Rota com uma lista de posts
     app.use("/admin", admin) // Rota prefixada admin
 
