@@ -245,6 +245,16 @@
         })
     })
 
+    // Rota para deletar postagens
+    router.get("/postagem/deletar/:id", (req, res) => {
+        Postagem.remove({_id: req.params.id}).then( () => {
+            req.flash("success_msg", "Postagem deletada com sucesso!")
+            res.redirect("/admin/postagens")
+        }).catch( (err) => {
+            res.flash("error_msg", "Erro ao deletar a postagem!\n Erro: "+err)
+            res.redirect("/admin/postagens")
+        })         
+    })
 
 
 
